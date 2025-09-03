@@ -1,13 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { DateTime } from 'luxon'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [times, setTimes] = useState({
+    wat: DateTime.now().setZone('Africa/Lagos').toFormat('HH:mm:ss'),
+    est: DateTime.now().setZone('America/New_York').toFormat('HH:mm:ss'),
+    pst: DateTime.now().setZone('America/Los_Angeles').toFormat('HH:mm:ss')
+  })
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimes({
+        wat: DateTime.now().setZone('Africa/Lagos').toFormat('HH:mm:ss'),
+        est: DateTime.now().setZone('America/New_York').toFormat('HH:mm:ss'),
+        pst: DateTime.now().setZone('America/Los_Angeles').toFormat('HH:mm:ss')
+      })
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className={`min-h-screen ${isMenuOpen ? 'dark bg-darkBg text-textDark' : 'bg-lightBg text-textLight'} flex flex-col`}>
       {/* Header with Hamburger Menu */}
       <header className="flex justify-between items-center p-4 md:p-6 bg-lightBg dark:bg-darkBg border-b border-border">
-        <h1 className="text-mobile-lg md:text-desktop-lg font-semibold">Digital Clock</h1>
+        <h1 className="text-mobile-lg md:text-desktop-lg font-semibold">Clock Dashboard</h1>
         <button
           className="md:hidden p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -25,12 +42,23 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-0">
-        <h2 className="text-mobile-xl md:text-desktop-xl font-semibold text-center mb-4">Welcome to Digital Clock</h2>
-        <p className="text-mobile-base md:text-desktop-base text-center mb-6 max-w-md">
-          A modern, responsive clock dashboard to track time across multiple zones with a sleek design.
-        </p>
-        <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:shadow-hover">
-          Explore Now
+        <h2 className="text-mobile-xl md:text-desktop-xl font-semibold text-center mb-6">Global Time Dashboard</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl w-full">
+          <div className="bg-lightBg dark:bg-darkBg border border-border rounded-md p-4 text-center">
+            <h3 className="text-mobile-lg md:text-desktop-lg font-medium mb-2">Lagos (WAT)</h3>
+            <p className="text-mobile-xl md:text-desktop-xl font-semibold">{times.wat}</p>
+          </div>
+          <div className="bg-lightBg dark:bg-darkBg border border-border rounded-md p-4 text-center">
+            <h3 className="text-mobile-lg md:text-desktop-lg font-medium mb-2">New York (EST)</h3>
+            <p className="text-mobile-xl md:text-desktop-xl font-semibold">{times.est}</p>
+          </div>
+          <div className="bg-lightBg dark:bg-darkBg border border-border rounded-md p-4 text-center">
+            <h3 className="text-mobile-lg md:text-desktop-lg font-medium mb-2">Los Angeles (PST)</h3>
+            <p className="text-mobile-xl md:text-desktop-xl font-semibold">{times.pst}</p>
+          </div>
+        </div>
+        <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:shadow-hover mt-6">
+          Add Time Zone
         </button>
       </main>
 
