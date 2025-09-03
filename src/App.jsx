@@ -1,19 +1,19 @@
-import { DateTime } from 'luxon'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function App() {
-  const [time, setTime] = useState(DateTime.now().setZone('Europe/London').toFormat('HH:mm:ss'))
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(DateTime.now().setZone('Europe/London').toFormat('HH:mm:ss'))
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+  const [isDark, setIsDark] = useState(false)
 
   return (
-    <div className="min-h-screen bg-lightBg text-textLight">
-      <h1 className="text-center pt-10">{time}</h1>
+    <div className={`min-h-screen ${isDark ? 'dark bg-darkBg text-textDark' : 'bg-lightBg text-textLight'}`}>
+      <h1 className="text-mobile-xl md:text-desktop-xl font-semibold text-center pt-10">Test Tailwind</h1>
+      <p className="text-mobile-base md:text-desktop-base text-center">This should use Inter font and custom colors</p>
+      <button className="bg-primary text-white px-6 py-3 rounded-md mx-auto block mt-4">Click Me</button>
+      <button
+        className="bg-gray text-textLight px-4 py-2 rounded-md mx-auto block mt-4"
+        onClick={() => setIsDark(!isDark)}
+      >
+        Toggle Dark Mode
+      </button>
     </div>
   )
 }
