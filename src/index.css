@@ -1,7 +1,9 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+   @tailwind components;
+   @tailwind utilities;
 
-body {
-  font-family: Inter, sans-serif;
-}
+   /* Ensure header is not duplicated or overlapped */
+   #main-header {
+     position: relative;
+     z-index: 10;
+   }
